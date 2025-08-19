@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="fr" class="no-js">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MPD-Manager — Gestionnaire de mots de passe pour macOS</title>
+  <meta name="description" content="Un gestionnaire de mots de passe rapide, privé et élégant pour macOS. Téléchargez l'app directement depuis ce site." />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <!-- Open Graph -->
+  <meta property="og:title" content="MDP-Manager — Gestionnaire de mots de passe pour macOS"/>
+  <meta property="og:description" content="Un gestionnaire de mots de passe rapide, privé et élégant pour macOS. Téléchargez l'app depuis ce site."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:image" content="/og-image.png"/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🔒</text></svg>">
+  <style>
+    :root{
+      --bg: #0b0c0f;
+      --bg-elev: #111319;
+      --text: #eaeef7;
+      --muted: #a7b0c0;
+      --brand: #7aa2ff;
+      --brand-2: #3ee7b3;
+      --ring: rgba(122,162,255,.5);
+      --card: color-mix(in oklab, var(--bg) 70%, white 30%);
+      --shadow: 0 20px 40px -20px rgba(0,0,0,.5);
+      --radius-xl: 24px;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --bg:#f7f8fb; --bg-elev:#ffffff; --text:#0b0c0f; --muted:#4b4f58; --card:#ffffff; --shadow:0 30px 60px -30px rgba(0,0,0,.1);
+      }
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font:16px/1.5 -apple-system,BlinkMacSystemFont,'SF Pro Text','SF Pro Display','Segoe UI',Roboto,Ubuntu,'Helvetica Neue',Arial,sans-serif;
+      color:var(--text); background:radial-gradient(1200px 800px at 80% -10%, rgba(122,162,255,.12), rgba(0,0,0,0) 60%),
+                         radial-gradient(900px 700px at 10% 10%, rgba(62,231,179,.12), rgba(0,0,0,0) 60%),
+                         var(--bg);
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+    }
+    a{color:inherit; text-decoration:none}
+    .container{max-width:1080px; margin:0 auto; padding:0 20px}
+    .nav{
+      position:sticky; top:0; z-index:50; backdrop-filter:saturate(140%) blur(10px);
+      background:color-mix(in oklab, var(--bg), transparent 40%);
+      border-bottom:1px solid color-mix(in oklab, var(--text) 10%, transparent 90%);
+    }
+    .nav-inner{display:flex; align-items:center; justify-content:space-between; height:64px}
+    .logo{display:flex; align-items:center; gap:12px; font-weight:700}
+    .logo-mark{display:grid; place-items:center; width:36px; height:36px; border-radius:12px; background:linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow:var(--shadow)}
+    .cta{display:inline-flex; align-items:center; gap:10px; padding:12px 18px; border-radius:14px; background:linear-gradient(180deg, color-mix(in oklab, var(--bg-elev), white 4%), color-mix(in oklab, var(--bg-elev), black 2%));
+      border:1px solid color-mix(in oklab, var(--text) 12%, transparent 88%);
+      box-shadow:0 8px 24px -12px rgba(0,0,0,.4);
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .cta:hover{transform:translateY(-2px); box-shadow:0 16px 30px -16px rgba(0,0,0,.5)}
+    .cta:focus-visible{outline:3px solid var(--ring); outline-offset:2px}
+
+    .hero{position:relative; padding:56px 0 24px; overflow:hidden}
+    .hero-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:center}
+    .badge{display:inline-flex; gap:8px; align-items:center; padding:8px 12px; border-radius:999px; border:1px solid color-mix(in oklab, var(--text) 10%, transparent 90%); font-size:14px; color:var(--muted); background:color-mix(in oklab, var(--bg-elev), transparent 10%)}
+    .headline{font-size: clamp(38px, 7vw, 64px); line-height:1.02; letter-spacing:-.02em; margin:16px 0}
+    .sub{font-size: clamp(16px, 2.6vw, 20px); color:var(--muted)}
+    .btns{display:flex; gap:14px; flex-wrap:wrap; margin:28px 0 0}
+
+    .mac{position:relative; border-radius:var(--radius-xl); background:linear-gradient(180deg, color-mix(in oklab, var(--card), white 2%), color-mix(in oklab, var(--card), black 2%));
+         border:1px solid color-mix(in oklab, var(--text) 10%, transparent 90%); box-shadow:var(--shadow); padding:14px; overflow:hidden}
+    .mac-top{display:flex; gap:8px; padding:4px 10px 12px}
+    .dot{width:10px; height:10px; border-radius:50%}
+    .dot.r{background:#ff5f57}.dot.y{background:#febc2e}.dot.g{background:#28c840}
+    .screen{aspect-ratio: 16/10; border-radius:14px; overflow:hidden; position:relative; background:radial-gradient(80% 80% at 70% 20%, rgba(122,162,255,.18), rgba(62,231,179,.18) 40%, rgba(0,0,0,0) 60%),
+                     linear-gradient(135deg, color-mix(in oklab, var(--bg), white 10%), color-mix(in oklab, var(--bg), black 2%))}
+    .screen img{width:100%; height:100%; object-fit:cover; opacity:.92; filter:saturate(1.05)}
+
+    .float-blur{position:absolute; inset:auto; pointer-events:none; z-index:-1}
+    .blob{position:absolute; width:46vw; max-width:700px; aspect-ratio:1; filter:blur(40px); opacity:.35; border-radius:999px; mix-blend:screen; animation: float 16s ease-in-out infinite}
+    .blob.b1{left:-8vw; top:-6vw; background:radial-gradient(circle at 30% 30%, var(--brand), rgba(0,0,0,0))}
+    .blob.b2{right:-10vw; top:10vw; background:radial-gradient(circle at 70% 70%, var(--brand-2), rgba(0,0,0,0)); animation-delay: -6s}
+    @keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-18px) scale(1.03)}}
+
+    .section{padding:72px 0}
+    .sec-title{font-size: clamp(28px, 4vw, 40px); letter-spacing:-.015em; margin:0 0 12px}
+    .muted{color:var(--muted)}
+    .grid{display:grid; gap:18px}
+    @media (min-width: 900px){ .grid.cols-3{grid-template-columns:repeat(3,1fr)} }
+
+    .card{padding:22px; border:1px solid color-mix(in oklab, var(--text) 10%, transparent 90%); background:linear-gradient(180deg, color-mix(in oklab, var(--bg-elev), white 3%), color-mix(in oklab, var(--bg-elev), black 2%)); border-radius:18px; box-shadow:var(--shadow); transform: translateY(8px); opacity:0; transition: transform .6s cubic-bezier(.2,.8,.2,1), opacity .6s ease}
+    .card.reveal{transform:none; opacity:1}
+    .card h3{margin:0 0 8px; font-size:20px}
+
+    .features svg{width:28px; height:28px}
+
+    .split{display:grid; gap:28px}
+    @media(min-width:900px){ .split{grid-template-columns:1.1fr .9fr} }
+    .code{font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:14px; padding:18px; border-radius:14px; border:1px solid color-mix(in oklab, var(--text) 10%, transparent 90%); background:linear-gradient(180deg, color-mix(in oklab, var(--bg-elev), white 3%), color-mix(in oklab, var(--bg-elev), black 2%)); overflow:auto}
+
+    .download{display:flex; flex-wrap:wrap; gap:14px}
+    .btn{display:inline-flex; align-items:center; gap:10px; padding:14px 18px; border-radius:14px; border:1px solid color-mix(in oklab, var(--text) 12%, transparent 88%); background:linear-gradient(180deg, color-mix(in oklab, var(--bg-elev), white 4%), color-mix(in oklab, var(--bg-elev), black 2%)); box-shadow:var(--shadow); font-weight:600; transition: transform .2s ease, box-shadow .2s ease}
+    .btn:hover{transform:translateY(-2px); box-shadow:0 16px 30px -16px rgba(0,0,0,.5)}
+    .btn .subtxt{font-weight:500; opacity:.7}
+
+    .footer{padding:40px 0 60px; color:var(--muted); border-top:1px solid color-mix(in oklab, var(--text) 10%, transparent 90%)}
+
+    .fade-in{opacity:0; transform:translateY(12px); transition:opacity .7s ease, transform .7s ease}
+    .fade-in.reveal{opacity:1; transform:none}
+
+    .pulse{animation:pulse 2s infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+
+    .tag{display:inline-flex; align-items:center; gap:6px; padding:4px 8px; border-radius:999px; border:1px solid color-mix(in oklab, var(--text) 10%, transparent 90%); font-size:12px; color:var(--muted)}
+    .kbd{font-family: ui-monospace, SFMono, Menlo, Consolas, monospace; font-size:12px; padding:2px 6px; border-radius:6px; background:color-mix(in oklab, var(--bg-elev), transparent 10%); border:1px solid color-mix(in oklab, var(--text) 14%, transparent 86%);
+    }
+  </style>
+</head>
+<body>
+  <!-- Nav -->
+  <header class="nav">
+    <div class="container nav-inner">
+      <a href="#" class="logo" aria-label="Accueil Vaulto">
+        <span class="logo-mark" aria-hidden="true">🔒</span>
+        <span>Vaulto</span>
+      </a>
+      <nav class="links" aria-label="Navigation principale">
+        <a href="#features" class="tag">Fonctionnalités</a>
+        <a href="#screens" class="tag">Aperçu</a>
+        <a href="#download" class="tag">Télécharger</a>
+        <a href="https://github.com/OWNER/REPO" class="tag" target="_blank" rel="noopener">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="float-blur" aria-hidden="true">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+    </div>
+    <div class="container hero-grid">
+      <div>
+        <span class="badge">
+          <span class="pulse">●</span>
+          Nouvelle version <span id="latestVersion">v1.0</span>
+        </span>
+        <h1 class="headline">Votre coffre-fort&nbsp;de mots de passe.<br/>Rapide. Privé. Élégant.</h1>
+        <p class="sub">Vaulto chiffre vos secrets avec <strong>CryptoKit</strong> et iCloud Keychain, Face/Touch ID, et un design digne d'Apple. Vos données restent <em>à vous</em>.</p>
+        <div class="btns">
+          <a id="downloadBtn" class="cta" href="#download">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>Télécharger pour macOS</span>
+          </a>
+          <a class="cta" href="https://github.com/OWNER/REPO" target="_blank" rel="noopener">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48 0-.24-.01-.87-.01-1.71-2.78.61-3.37-1.34-3.37-1.34-.45-1.15-1.11-1.46-1.11-1.46-.9-.61.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.53 2.34 1.09 2.91.83.09-.64.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.58 9.58 0 0 1 12 6.84a9.6 9.6 0 0 1 2.5.34c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.95.36.31.68.91.68 1.84 0 1.33-.01 2.4-.01 2.73 0 .26.18.58.69.48A10 10 0 0 0 12 2Z" stroke="currentColor" stroke-width="1.2"/></svg>
+            <span>Voir le code</span>
+          </a>
+        </div>
+      </div>
+      <div class="mac fade-in">
+        <div class="mac-top"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
+        <div class="screen">
+          <!-- Remplacez l'image ci-dessous par une capture d'écran de votre app -->
+          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1974&auto=format&fit=crop" alt="Aperçu de l'application Vaulto sur macOS"/>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section id="features" class="section">
+    <div class="container">
+      <h2 class="sec-title">Pensé pour macOS</h2>
+      <p class="muted">Une expérience native, belle, et ultra‑fluide.</p>
+      <div class="grid cols-3 features" style="margin-top:18px">
+        <article class="card">
+          <h3>Face/Touch ID</h3>
+          <p>Déverrouillez instantanément votre coffre-fort avec la biométrie intégrée à macOS.</p>
+        </article>
+        <article class="card">
+          <h3>Chiffrement bout‑à‑bout</h3>
+          <p>Vos secrets ne quittent jamais votre machine en clair. CryptoKit et Keychain sous le capot.</p>
+        </article>
+        <article class="card">
+          <h3>Remplissage auto</h3>
+          <p>AutoFill pour vos apps et sites favoris. Recherche ultra‑rapide et tags intelligents.</p>
+        </article>
+        <article class="card">
+          <h3>iCloud Sync</h3>
+          <p>Vos entrées synchronisées sur tous vos Mac, en restant chiffrées.</p>
+        </article>
+        <article class="card">
+          <h3>Import / Export</h3>
+          <p>CSV, 1Password, LastPass… migrez en quelques clics.</p>
+        </article>
+        <article class="card">
+          <h3>Open‑source</h3>
+          <p>Transparence totale : auditez le code sur GitHub, contributions bienvenues.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Screens / Code sample -->
+  <section id="screens" class="section">
+    <div class="container split">
+      <div>
+        <h2 class="sec-title">Une interface claire et familière</h2>
+        <p class="muted">Palette sobre, coins arrondis 2xl, animations fluides, et une lisibilité parfaite avec San Francisco.</p>
+        <div class="card" style="margin-top:12px">
+          <h3>Cliquer pour copier, c'est tout ✔︎</h3>
+          <p class="muted">Petit bonus : <span class="kbd">⌘</span>+<span class="kbd">K</span> pour ouvrir la recherche globale.</p>
+        </div>
+      </div>
+      <pre class="code"><code>// Exemple swift: ajout sécurisé d'un identifiant
+import CryptoKit
+
+struct Secret: Codable { let user: String; let pass: String }
+
+func save(_ secret: Secret) throws {
+  let data = try JSONEncoder().encode(secret)
+  let sealed = try AES.GCM.seal(data, using: SymmetricKey(size: .bits256))
+  // Enregistrer sealed.combined dans le trousseau (Keychain)
+}
+</code></pre>
+    </div>
+  </section>
+
+  <!-- Download -->
+  <section id="download" class="section">
+    <div class="container">
+      <h2 class="sec-title">Télécharger</h2>
+      <p class="muted">Version <span id="v2">v1.0</span> — build universel Apple Silicon & Intel.</p>
+      <div class="download" style="margin-top:16px">
+        <a id="primaryDownload" class="btn" href="#">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <div>
+            <div>Télécharger l’app macOS</div>
+            <div class="subtxt" id="assetMeta">DMG • ~ —</div>
+          </div>
+        </a>
+        <a id="altDownload" class="btn" href="#" style="display:none">
+          <div>Build alternatif</div>
+          <div class="subtxt">.zip</div>
+        </a>
+        <a class="btn" href="https://github.com/OWNER/REPO/releases/latest" target="_blank" rel="noopener">Autres fichiers · Releases</a>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h3>Vérifier l’intégrité</h3>
+        <p class="muted">Après téléchargement, vous pouvez vérifier l’empreinte SHA‑256 :</p>
+        <pre class="code">shasum -a 256 /Applications/Vaulto.dmg</pre>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; gap:12px; justify-content:space-between">
+      <div>© <span id="year"></span> Vaulto. Fièrement conçu pour macOS.</div>
+      <div style="display:flex; gap:10px; align-items:center">
+        <a class="tag" href="mailto:hello@example.com">Support</a>
+        <a class="tag" href="https://github.com/OWNER/REPO" target="_blank" rel="noopener">GitHub</a>
+        <a class="tag" href="privacy.html">Confidentialité</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // === À PERSONNALISER ===
+    const REPO_OWNER = 'OWNER'; // ← remplacez par votre identifiant GitHub
+    const REPO_NAME  = 'REPO';  // ← remplacez par le nom du dépôt
+    // Si vous voulez forcer un lien direct (sans API), mettez l’URL ci-dessous
+    const FALLBACK_DIRECT_DMG = 'https://github.com/OWNER/REPO/releases/latest/download/Vaulto.dmg';
+
+    const $ = s => document.querySelector(s);
+    const $$ = s => Array.from(document.querySelectorAll(s));
+
+    // Année courante
+    $('#year').textContent = new Date().getFullYear();
+
+    // Révélation au scroll
+    const io = new IntersectionObserver((entries)=>{
+      for (const e of entries){ if (e.isIntersecting){ e.target.classList.add('reveal'); io.unobserve(e.target);} }
+    }, { threshold: .12 });
+    $$('.card, .fade-in').forEach(el => io.observe(el));
+
+    // Récupération auto de la dernière release GitHub
+    async function hydrateFromGitHub(){
+      try{
+        const res = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/releases/latest`, { headers:{ 'Accept':'application/vnd.github+json' }});
+        if(!res.ok) throw new Error('No release');
+        const data = await res.json();
+        const tag = data.tag_name || data.name || '';
+        $('#latestVersion').textContent = tag; $('#v2').textContent = tag;
+        // Cherche un .dmg prioritaire
+        const dmg = (data.assets||[]).find(a => /\.dmg$/i.test(a.name));
+        const any = (data.assets||[])[0];
+        if (dmg){
+          const link = dmg.browser_download_url;
+          const size = formatBytes(dmg.size);
+          $('#primaryDownload').href = link;
+          $('#assetMeta').textContent = `${dmg.name} • ${size}`;
+        } else if (any){
+          $('#primaryDownload').href = any.browser_download_url;
+          $('#assetMeta').textContent = `${any.name} • ${formatBytes(any.size)}`;
+        } else {
+          // Fallback si pas d’assets
+          $('#primaryDownload').href = FALLBACK_DIRECT_DMG;
+        }
+        // Alt asset si dispo
+        const alt = (data.assets||[]).find(a => !/\.dmg$/i.test(a.name));
+        if (alt){
+          const altBtn = $('#altDownload');
+          altBtn.style.display = '';
+          altBtn.href = alt.browser_download_url;
+          altBtn.querySelector('.subtxt').textContent = `${alt.name} • ${formatBytes(alt.size)}`;
+        }
+      }catch(err){
+        // En cas d’échec: fallback direct
+        $('#primaryDownload').href = FALLBACK_DIRECT_DMG;
+      }
+    }
+    function formatBytes(b){
+      if (!b) return '~';
+      const units=['o','Ko','Mo','Go'];
+      let i=0; while(b>=1024 && i<units.length-1){ b/=1024; i++; }
+      return `${b.toFixed(1)} ${units[i]}`;
+    }
+    hydrateFromGitHub();
+
+    // Lien du bouton du hero vers la section download si pas de href direct
+    $('#downloadBtn').addEventListener('click', (e)=>{
+      const href = $('#primaryDownload').getAttribute('href');
+      if (!href || href === '#') { e.preventDefault(); document.getElementById('download').scrollIntoView({behavior:'smooth'}); }
+    });
+  </script>
+</body>
+</html>
