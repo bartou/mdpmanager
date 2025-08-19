@@ -119,9 +119,9 @@
   <!-- Nav -->
   <header class="nav">
     <div class="container nav-inner">
-      <a href="#" class="logo" aria-label="Accueil Vaulto">
+      <a href="#" class="logo" aria-label="Accueil MDP-Manager">
         <span class="logo-mark" aria-hidden="true">🔒</span>
-        <span>Vaulto</span>
+        <span>MPD-Manager</span>
       </a>
       <nav class="links" aria-label="Navigation principale">
         <a href="#features" class="tag">Fonctionnalités</a>
@@ -145,7 +145,7 @@
           Nouvelle version <span id="latestVersion">v1.0</span>
         </span>
         <h1 class="headline">Votre coffre-fort&nbsp;de mots de passe.<br/>Rapide. Privé. Élégant.</h1>
-        <p class="sub">Vaulto chiffre vos secrets avec <strong>CryptoKit</strong> et iCloud Keychain, Face/Touch ID, et un design digne d'Apple. Vos données restent <em>à vous</em>.</p>
+        <p class="sub">MDP-Manager chiffre vos secrets avec <strong>CryptoKit</strong> et iCloud Keychain, Face/Touch ID, et un design digne d'Apple. Vos données restent <em>à vous</em>.</p>
         <div class="btns">
           <a id="downloadBtn" class="cta" href="#download">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 21h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -161,7 +161,7 @@
         <div class="mac-top"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>
         <div class="screen">
           <!-- Remplacez l'image ci-dessous par une capture d'écran de votre app -->
-          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1974&auto=format&fit=crop" alt="Aperçu de l'application Vaulto sur macOS"/>
+          <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1974&auto=format&fit=crop" alt="Aperçu de l'application MDP-Manager sur macOS"/>
         </div>
       </div>
     </div>
@@ -248,14 +248,14 @@ func save(_ secret: Secret) throws {
       <div class="card" style="margin-top:18px">
         <h3>Vérifier l’intégrité</h3>
         <p class="muted">Après téléchargement, vous pouvez vérifier l’empreinte SHA‑256 :</p>
-        <pre class="code">shasum -a 256 /Applications/Vaulto.dmg</pre>
+        <pre class="code">shasum -a 256 /Applications/MDP-Manager.dmg</pre>
       </div>
     </div>
   </section>
 
   <footer class="footer">
     <div class="container" style="display:flex; flex-wrap:wrap; align-items:center; gap:12px; justify-content:space-between">
-      <div>© <span id="year"></span> Vaulto. Fièrement conçu pour macOS.</div>
+      <div>© <span id="year"></span> MPD-Manager. Fièrement conçu pour macOS.</div>
       <div style="display:flex; gap:10px; align-items:center">
         <a class="tag" href="mailto:hello@example.com">Support</a>
         <a class="tag" href="https://github.com/OWNER/REPO" target="_blank" rel="noopener">GitHub</a>
@@ -266,10 +266,10 @@ func save(_ secret: Secret) throws {
 
   <script>
     // === À PERSONNALISER ===
-    const REPO_OWNER = 'OWNER'; // ← remplacez par votre identifiant GitHub
-    const REPO_NAME  = 'REPO';  // ← remplacez par le nom du dépôt
+    const REPO_OWNER = 'bartou'; // ← remplacez par votre identifiant GitHub
+    const REPO_NAME  = 'mdpmanager';  // ← remplacez par le nom du dépôt
     // Si vous voulez forcer un lien direct (sans API), mettez l’URL ci-dessous
-    const FALLBACK_DIRECT_DMG = 'https://github.com/OWNER/REPO/releases/latest/download/Vaulto.dmg';
+    const FALLBACK_DIRECT_DMG = 'https://github.com/OWNER/REPO/releases/latest/download/Vault.dmg';
 
     const $ = s => document.querySelector(s);
     const $$ = s => Array.from(document.querySelectorAll(s));
